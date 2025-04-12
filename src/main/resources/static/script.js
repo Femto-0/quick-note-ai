@@ -29,6 +29,7 @@ noteForm.addEventListener("submit", function (event) {
   })
     .then((response) => response.json()) // Parse the JSON response
     .then((data) => {
+    console.log("Received from backend:", data);
       // Display the summarized note
       summaryText.innerHTML = data.summary || "Summary could not be generated.";
       moodText.innerHTML =

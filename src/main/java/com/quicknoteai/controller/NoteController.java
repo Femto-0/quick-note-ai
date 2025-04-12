@@ -3,6 +3,7 @@ package com.quicknoteai.controller;
 import com.quicknoteai.model.Note;
 import com.quicknoteai.service.OllamaService;
 import com.quicknoteai.repository.NoteRepository;
+import dto.NoteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
@@ -64,21 +65,27 @@ public class NoteController {
     combining result from summary and the mood and returning a json.
      */
     @PostMapping
-    @Async
-    public Mono<Note> processNote(@RequestBody Note note) {
-        Mono<String> summaryMono = ollamaService.getSummary(note.getContent())
-                .onErrorReturn("Summary could not be generated.");
+    public NoteResponse processNote(@RequestBody Note note) {
+        String summary;
+        String mood;
 
-        Mono<String> moodMono = ollamaService.determineMood(note.getContent())
-                .onErrorReturn("Vibe couldn't be determined");
+        try {
+            summary = ollamaService.getSummary(note.getContent()).block();
+        } catch (Exception e) {
+            summary = "Summary could not be generated.";
+        }
 
-        return Mono.zip(summaryMono, moodMono)
-                .map(tuple -> {
-                    note.setSummary(tuple.getT1());
-                    note.setMood(tuple.getT2());
-                    note.setTimeStamp(LocalDateTime.now());
-                    return noteRepository.save(note); // this is okay here
-                });
+        try {
+            mood = ollamaService.determineMood(note.getContent()).block();
+        } catch (Exception e) {
+            mood = "Unable to determine mood, are you a Robot by any chance?";
+        }
+
+        note.setSummary(summary);
+        note.setMood(mood);
+        note.setTimeStamp(LocalDateTime.now());
+        noteRepository.save(note); // Save the full note
+
+        return new NoteResponse(summary, mood); // Return only summary and mood
     }
-
 }
