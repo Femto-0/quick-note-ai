@@ -41,5 +41,5 @@ clearBtn.addEventListener('click', function () {
     noteContent.value = '';
     // Reset the summary and mood to the default text
     summaryText.innerHTML = "Your summarized note will appear here...";
-    mood.innerHTML = "What's your Vibe today.....";
+    mood.innerHTML = "What's your Mood today.....";
 });
