@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QuickNoteAI - Take Notes</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="container">
-      <h1>QuickNoteAI</h1>
-      <div class="content-wrapper">
-        <div class="sidebar">
-          <h2>Previous Notes</h2>
-          <div class="notes-list" id="notesList">
-            <!-- Previous notes will be dynamically inserted here -->
-          </div>
-          <button type="button" id="createNewBtn" class="create-btn">
-            Create New Note
-          </button>
-        </div>
-
-        <div class="main-content">
-          <!-- Note Submission Form -->
-          <form id="noteForm">
-            <textarea
-              id="noteContent"
-              placeholder="Write your note here..."
-              required
-            ></textarea>
-            <div class="button-group">
-              <button type="submit">Submit</button>
-              <button type="button" id="clearBtn">Clear</button>
-            </div>
-          </form>
-
-          <div id="result">
-            <h3>Note Summary:</h3>
-            <p id="summaryText">Your summarized note will appear here...</p>
-            <h3>Mood check:</h3>
-            <p id="mood">What's your Mood today.....</p>
-          </div>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickNoteAI - Take Notes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="container">
+  <h1>QuickNoteAI</h1>
+  <div class="content-wrapper">
+    <div class="sidebar">
+      <h2>Previous Notes</h2>
+      <div class="notes-list" id="notesList">
+        <!-- Previous notes will be dynamically inserted here -->
       </div>
+      <button type="button" id="createNewBtn" class="create-btn">
+        Create New Note
+      </button>
     </div>
 
-    <script src="script.js"></script>
-  </body>
+    <div class="main-content">
+      <!-- Note Submission Form -->
+      <form id="noteForm">
+        <div class="input-group">
+              <textarea
+                      id="noteContent"
+                      placeholder="Write your note here..."
+                      required
+              ></textarea>
+          <button type="button" id="recordBtn" class="record-btn">
+            Record Audio
+          </button>
+          <p id="transcribedText" class="transcribed-text">
+            Click 'Record Audio' to start speaking...
+          </p>
+        </div>
+        <div class="button-group">
+          <button type="submit">Submit</button>
+          <button type="button" id="clearBtn">Clear</button>
+        </div>
+      </form>
+
+      <div id="result">
+        <h3>Note Summary:</h3>
+        <p id="summaryText">Your summarized note will appear here...</p>
+        <h3>Mood check:</h3>
+        <p id="mood">What's your Mood today.....</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
 </html>
