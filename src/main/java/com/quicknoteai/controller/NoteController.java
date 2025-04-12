@@ -3,12 +3,9 @@ package com.quicknoteai.controller;
 import com.quicknoteai.model.Note;
 import com.quicknoteai.service.OllamaService;
 import com.quicknoteai.repository.NoteRepository;
-import dto.NoteResponse;
+import com.quicknoteai.dto.NoteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package dto;
+package com.quicknoteai.dto;
 
 public class NoteResponse {
     private String summary;
