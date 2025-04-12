@@ -15,6 +15,12 @@ loadPreviousNotes();
 noteForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Prevent form from refreshing the page
 
+  if (!noteContent.value.trim()) {
+    summaryText.innerHTML = "Please write a note first.";
+    moodText.innerHTML = "What's your Mood today.....";
+    return;
+  }
+
   const note = {
     content: noteContent.value,
   };
@@ -27,19 +33,27 @@ noteForm.addEventListener("submit", function (event) {
     },
     body: JSON.stringify(note),
   })
-    .then((response) => response.json()) // Parse the JSON response
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
+      if (!data) {
+        throw new Error("No data received from server");
+      }
       // Display the summarized note
       summaryText.innerHTML = data.summary || "Summary could not be generated.";
-      moodText.innerHTML =
-        data.mood || "Unable to determine mood, are you a Robot by any chance?";
+      moodText.innerHTML = data.mood || "Unable to determine mood.";
       // Refresh the notes list
       loadPreviousNotes();
     })
     .catch((error) => {
       console.error("Error submitting note:", error);
-      summaryText.innerHTML = "There was an error processing your note.";
-      moodText.innerHTML = "What's your Mood today.....";
+      summaryText.innerHTML =
+        "There was an error processing your note. Please try again.";
+      moodText.innerHTML = "Unable to determine mood at this time.";
     });
 });
 
@@ -68,8 +82,16 @@ function loadPreviousNotes() {
       "Content-Type": "application/json",
     },
   })
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((notes) => {
+      if (!Array.isArray(notes)) {
+        throw new Error("Invalid response format");
+      }
       notesList.innerHTML = ""; // Clear existing notes
       notes.forEach((note) => {
         const noteElement = createNoteElement(note);
@@ -78,6 +100,8 @@ function loadPreviousNotes() {
     })
     .catch((error) => {
       console.error("Error loading previous notes:", error);
+      notesList.innerHTML =
+        '<div class="note-item error">Unable to load previous notes</div>';
     });
 }
 
