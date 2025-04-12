@@ -22,24 +22,25 @@ noteForm.addEventListener('submit', function (event) {
         },
         body: JSON.stringify(note)
     })
-    .then(response => response.json())  // Parse the JSON response
+    .then(response => {
+        if (!response.ok) {  // Added: Check if response status is OK
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();  // Parse the JSON response
+    })
     .then(data => {
-        // Display the summarized note
-        summaryText.innerHTML = data.summary || "Summary could not be generated.";
-        mood.innerHTML = data.mood || "Unable to determine mood, are you a Robot by any chance?";
+        // Updated: Check if the expected fields are present in the response
+        if (data.summary && data.mood) {
+            summaryText.innerHTML = data.summary;
+            mood.innerHTML = data.mood;
+        } else {
+            summaryText.innerHTML = "Summary could not be generated.";
+            mood.innerHTML = "Unable to determine mood, are you a Robot by any chance?";
+        }
     })
     .catch(error => {
         console.error("Error submitting note:", error);
         summaryText.innerHTML = "There was an error processing your note.";
         mood.innerHTML = "Vibe could not be determined due to an error.";
     });
-});
-
-// Handle clear button click
-clearBtn.addEventListener('click', function () {
-    // Clear the text area
-    noteContent.value = '';
-    // Reset the summary and mood to the default text
-    summaryText.innerHTML = "Your summarized note will appear here...";
-    mood.innerHTML = "What's your Mood today.....";
 });
