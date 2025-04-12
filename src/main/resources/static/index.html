@@ -23,11 +23,19 @@
         <div class="main-content">
           <!-- Note Submission Form -->
           <form id="noteForm">
-            <textarea
-              id="noteContent"
-              placeholder="Write your note here..."
-              required
-            ></textarea>
+            <div class="input-group">
+              <textarea
+                id="noteContent"
+                placeholder="Write your note here..."
+                required
+              ></textarea>
+              <button type="button" id="recordBtn" class="record-btn">
+                Record Audio
+              </button>
+              <p id="transcribedText" class="transcribed-text">
+                Click 'Record Audio' to start speaking...
+              </p>
+            </div>
             <div class="button-group">
               <button type="submit">Submit</button>
               <button type="button" id="clearBtn">Clear</button>
