@@ -9,7 +9,7 @@ Requirements:   Java 21
 --> Setting up your MySQL server:
         db-access: root
         db-name: quicknoteai
-        db-password: root@1234
+        db-password: <yourDBpass>
         
 
 Current state: The applicaiton uses Ollama to host a local LLM and make API requets locally.
