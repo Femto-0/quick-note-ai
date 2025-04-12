@@ -21,33 +21,40 @@ public class NoteController {
     private OllamaService ollamaService;
 
     @PostMapping
-    public Note createNote(@RequestBody Note note) {
+    public Note processNote(@RequestBody Note note) {
         String summary = null;
-        int maxRetries = 3;
-        int attempts = 0;
+        String mood = null;
 
-        while (attempts < maxRetries) {
+        // Try generating the summary
+        try {
+            System.out.println("Calling my boy llama for summarization...");
+            summary = ollamaService.getSummary(note.getContent()).block();
+            System.out.println("Summary received.");
+        } catch (HttpClientErrorException.TooManyRequests e) {
             try {
-                System.out.println("Calling my boy llama for summarization...");
-                summary = ollamaService.getSummary(note.getContent()).block();
-                System.out.println("Summary received.");
-                note.setTimeStamp(LocalDateTime.now());
-                break; // success
-            } catch (HttpClientErrorException.TooManyRequests e) {
-                attempts++;
-                System.out.println("Too many requests, retrying in 2s... (Attempt " + attempts + ")");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ignored) {}
-            }
+                Thread.sleep(2000);
+            } catch (InterruptedException ignored) {}
         }
 
-        if (summary != null) {
-            note.setSummary(summary);
-        } else {
-            note.setSummary("Summary could not be generated (rate limit).");
+        // Try determining the mood
+        try {
+            System.out.println("Calling my boy llama to check the vibe...");
+            mood = ollamaService.determineMood(note.getContent()).block();
+            System.out.println("Vibe received.");
+        } catch (HttpClientErrorException.TooManyRequests e) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ignored) {}
         }
+
+        // Set the timestamp
+        note.setTimeStamp(LocalDateTime.now());
+
+        // Set summary and mood if available
+        note.setSummary(summary != null ? summary : "Summary could not be generated.");
+        note.setMood(mood != null ? mood : "Vibe couldn't be determined");
 
         return noteRepository.save(note);
     }
+
 }

@@ -3,6 +3,7 @@ const noteForm = document.getElementById('noteForm');
 const noteContent = document.getElementById('noteContent');
 const resultDiv = document.getElementById('result');
 const summaryText = document.getElementById('summaryText');
+const vibe= document.getElementById('mood');
 const clearBtn = document.getElementById('clearBtn');
 
 // Handle form submission
@@ -25,6 +26,7 @@ noteForm.addEventListener('submit', function (event) {
     .then(data => {
         // Display the summarized note
         summaryText.innerHTML = data.summary || "Summary could not be generated.";
+        moodText.innerHTML= data.mood || "Unable to determine mood, are you a Robot by any chance?"
     })
     .catch(error => {
         console.error("Error submitting note:", error);
