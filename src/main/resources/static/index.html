@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickNoteAI - Take Notes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>QuickNoteAI</h1>
+    <h3>Write your note below:</h3>
+
+    <!-- Note Submission Form -->
+    <form id="noteForm">
+        <textarea id="noteContent" placeholder="Write your note here..." required></textarea>
+        <button type="submit">Submit</button>
+        <!-- Clear Button -->
+        <button type="button" id="clearBtn">Clear</button>
+    </form>
+
+    <div id="result">
+        <h3>Note Summary:</h3>
+        <p id="summaryText">Your summarized note will appear here...</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
