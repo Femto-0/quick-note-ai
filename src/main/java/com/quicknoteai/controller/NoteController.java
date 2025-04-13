@@ -67,13 +67,17 @@ public class NoteController {
         String mood;
 
         try {
+            System.out.println("Requesting llama to generate summary....");
             summary = ollamaService.getSummary(note.getContent()).block();
+            System.out.println("Summary received");
         } catch (Exception e) {
             summary = "Summary could not be generated.";
         }
 
         try {
+            System.out.println("Determining mood....");
             mood = ollamaService.determineMood(note.getContent()).block();
+            System.out.println("Mood determined");
         } catch (Exception e) {
             mood = "Unable to determine mood, are you a Robot by any chance?";
         }
