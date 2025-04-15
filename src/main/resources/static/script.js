@@ -60,15 +60,13 @@ noteForm.addEventListener("submit", function (event) {
       }
       // Display the summarized note
       summaryText.innerHTML = data.summary || "Summary could not be generated.";
-      moodText.innerHTML =
-        data.mood || "Unable to determine mood, are you a Robot by any chance?";
+      moodText.innerHTML = data.mood || "Unable to determine mood, are you a Robot by any chance?";
       // Refresh the notes list
       loadPreviousNotes();
     })
     .catch((error) => {
       console.error("Error submitting note:", error);
-      summaryText.innerHTML =
-        "There was an error processing your note. Please try again.";
+      summaryText.innerHTML = "There was an error processing your note. Please try again.";
       moodText.innerHTML = "Unable to determine mood at this time.";
     });
 });
@@ -81,8 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let recognition;
   try {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SpeechRecognition();
   } catch (e) {
     console.error("Speech recognition not supported", e);
