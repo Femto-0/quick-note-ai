@@ -89,4 +89,11 @@ public class NoteController {
 
         return new NoteResponse(summary, mood); // Return only summary and mood
     }
+
+
+    //TODO: logic to fetch the notes stored in the db
+    @GetMapping
+    public void loadNotes(@RequestBody Note note){
+
+    }
 }
